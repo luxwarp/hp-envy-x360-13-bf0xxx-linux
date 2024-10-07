@@ -23,6 +23,23 @@ options i915 enable_fbc=1
 options i915 enable_guc=3
 options i915 enable_psr=0
 
+#################
+#Fix for keyboard not working on resume from systemd-sleep.
+#################
+sudo nano /usr/lib/systemd/systemd-sleep/rescankbd.sh
+
+#!/bin/sh
+if [ "${1}" == "pre" ]; then
+  # Do the thing you want before suspend here, e.g.:
+  echo "we are suspending at $(date)..." > /tmp/systemd_suspend_log
+elif [ "${1}" == "post" ]; then
+  # Do the thing you want after resume here, e.g.:
+  echo "...and we are back from $(date)" >> /tmp/systemd_suspend_log
+  echo -n rescan > /sys/devices/platform/i8042/serio0/drvctl
+fi
+
+sudo chmod +x /usr/lib/systemd/systemd-sleep/rescankbd.sh
+
 
 ############
 /usr/local/bin/disablerfkill
@@ -59,6 +76,8 @@ ConditionNeedsUpdate=/etc
 
 Based on https://askubuntu.com/questions/1446579/airplane-mode-toggling-when-switching-to-tablet-mode-hp-spectre-x360
 
+
+
 ###########################
 Test FIX MISSING ACPI DEVICES
 ###########################
@@ -74,6 +93,5 @@ echo "Modified Command Line: ` config `"
 #################################
 Not working
 #################################
-Internal speakers. Fixed in kernel 6.9 or patching with quirk (see dkms module)
-Suspend wont start up. Replace suspend with hibernate for now.
+
 
