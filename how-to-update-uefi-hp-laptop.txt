@@ -1,0 +1,12 @@
+#This is only rough notes. Dont blame me for bricking your computer.
+
+######
+#Download Uefi update from support.hp.com
+
+#Unpack / extract with wine
+
+wine spxxxx.exe /s /f spxxxxx
+
+# Hp bios utility tool will start. click next and choose copy instead of make usb. Save to known location
+# Quit the new installer that auto starts.
+# copy files to hp recovery usb and boot in to it. 
